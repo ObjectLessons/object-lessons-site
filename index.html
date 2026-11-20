@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Object Lessons: Understanding and augmenting the role of reproductions in musuems</title>
+<title>Object Lessons: Understanding and augmenting the role of reproductions in museums</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🖼️</text></svg>">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -70,14 +70,14 @@
   section { padding: 48px 0; border-bottom: 1px solid var(--line); }
   section:last-of-type { border-bottom: none; }
 
-  .hero { padding-top: 28px; padding-bottom: 28px; 
+  .hero { padding-top: 28px; padding-bottom: 28px;
     background-image: url("The_Guided_Tour_-_geograph.org.uk_-_2010258.jpg");
     background-size: cover;
     background-position: center 35%;}
 
-    .hero2 {padding-top: 28px; padding-bottom: 28px;}
+  .hero2 { padding-top: 28px; padding-bottom: 28px; }
 
-    .hero2 p.lede {
+  .hero2 p.lede {
     font-size: 1.15rem;
     color: var(--stone);
     max-width: 80ch;
@@ -122,41 +122,104 @@
   .method-grid { display: grid; grid-template-columns: 1fr 1fr ; gap: 28px;}
   .method-grid div h3 { font-size: 1.02rem; margin: 0 0 8px; }
   .method-grid div p { margin: 0; color: var(--stone); font-size: 0.94rem; }
-  
-  .flip-card-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 20px;
-    padding: 20px;
-    margin-top: 25vh;
+
+  /* ---------- Team: flip cards, two per row ---------- */
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px;
   }
+
   .flip-card {
-    width: 200px;
-    height: 200px;
+    position: relative;
+    aspect-ratio: 4 / 5;
+    perspective: 1200px;
+    cursor: pointer;
+    border-radius: 4px;
   }
-  .flip-card-front {
-    background-image: url("Kathryn Eccles[11].jpg");
-    background-size: cover; 
-    height: 100% ;
-    width: 100% ;
-    background-position: center;
+  .flip-card:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+
+  .flip-inner {
+    position: absolute;
+    inset: 0;
+    transform-style: preserve-3d;
+    transition: transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1);
   }
-  .flip-card-back {
+  .flip-card:hover .flip-inner,
+  .flip-card:focus .flip-inner,
+  .flip-card.is-flipped .flip-inner { transform: rotateY(180deg); }
 
-
+  .flip-front, .flip-back {
+    position: absolute;
+    inset: 0;
+    border-radius: 4px;
+    overflow: hidden;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
   }
-  .team-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 28px 24px; }
-  .person { border-top: 1px solid var(--line); padding-top: 16px; }
-  .person h3 { margin: 0 0 2px; font-size: 1.02rem; font-weight: 600; }
-  .person .role { color: var(--accent); font-size: 0.86rem; margin: 0 0 8px; }
-  .person p.bio { margin: 0; color: var(--stone); font-size: 0.9rem; }
 
-  .pub-list { display: grid; gap: 18px; }
-  .pub { border-top: 1px solid var(--line); padding-top: 16px; }
-  .pub:first-child { border-top: none; padding-top: 0; }
-  .pub .pub-meta { color: var(--stone); font-size: 0.85rem; margin: 4px 0 0; }
+  /* Front: photo with name and role along the bottom */
+  .flip-front {
+    background-color: var(--wall);
+    background-size: cover;
+    background-position: center top;
+    display: flex;
+    align-items: flex-end;
+  }
+  .flip-front .initials {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Source Serif 4', Georgia, serif;
+    font-size: 3.5rem;
+    color: var(--stone);
+  }
+  .flip-front .caption {
+    position: relative;
+    width: 100%;
+    padding: 48px 18px 16px;
+    background: linear-gradient(to top, rgba(10, 12, 16, 0.78), rgba(10, 12, 16, 0));
+    color: #fff;
+  }
+  .flip-front .caption h3 { margin: 0; font-size: 1.1rem; font-weight: 600; }
+  .flip-front .caption .role { margin: 2px 0 0; font-size: 0.85rem; opacity: 0.9; }
+
+  /* Back: bio text, scrolls if it is long */
+  .flip-back {
+    transform: rotateY(180deg);
+    background: var(--wall);
+    border: 1px solid var(--line);
+    padding: 20px 20px 16px;
+    overflow-y: auto;
+  }
+  .flip-back h3 { margin: 0 0 2px; font-size: 1.05rem; font-weight: 600; }
+  .flip-back .role { color: var(--accent); font-size: 0.85rem; margin: 0 0 10px; }
+  .flip-back .bio { margin: 0; color: var(--ink); font-size: 0.86rem; line-height: 1.5; }
+
+  /* ---------- News ---------- */
+  .news-list { display: grid; gap: 32px; }
+  .news-post {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 24px;
+    border-top: 1px solid var(--line);
+    padding-top: 28px;
+  }
+  .news-post:first-child { border-top: none; padding-top: 0; }
+  .news-post.no-image { grid-template-columns: 1fr; }
+  .news-post img {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+    display: block;
+  }
+  .news-post time { color: var(--stone); font-size: 0.85rem; }
+  .news-post h3 { margin: 2px 0 10px; font-size: 1.2rem; font-weight: 500; }
+  .news-post p { margin: 0 0 12px; color: var(--stone); font-size: 0.96rem; max-width: 70ch; }
+  .news-post p:last-child { margin-bottom: 0; }
+  .news-empty { color: var(--stone); }
 
   .cta-box {
     background: var(--wall);
@@ -185,17 +248,26 @@
   footer a { color: var(--stone); }
 
   a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .flip-inner { transition: none; }
+  }
 
   @media (max-width: 600px) {
     section { padding: 44px 0; }
     .hero { padding-top: 40px; padding-bottom: 44px; }
     nav { gap: 14px; font-size: 0.85rem; }
+    .team-grid { gap: 14px; }
+    .news-post { grid-template-columns: 1fr; gap: 14px; }
+    .flip-card { aspect-ratio: 3 / 4; }
+    .flip-back { padding: 14px; }
+    .flip-back .bio { font-size: 0.78rem; }
+    .flip-front .caption { padding: 36px 12px 12px; }
+    .flip-front .caption h3 { font-size: 0.95rem; }
   }
 
   @media (max-width: 480px) {
-  .method-grid {
-    grid-template-columns: 1fr; }
+    .method-grid { grid-template-columns: 1fr; }
   }
 
 </style>
@@ -209,7 +281,7 @@
       <a href="#about">About</a>
       <a href="#method">Methods</a>
       <a href="#team">People</a>
-      <a href="#publications">Publications</a>
+      <a href="#news">News</a>
       <a href="#involved">Contact</a>
     </nav>
   </div>
@@ -286,7 +358,7 @@
     <div class="method-grid">
       <div>
         <h3>Mobile eye-tracking (MET)</h3>
-        <p>Collecting metrics of visual attention while particpants freely move around museum sites.</p>
+        <p>Collecting metrics of visual attention while participants freely move around museum sites.</p>
       </div>
       <div>
         <h3>Interviews</h3>
@@ -306,67 +378,176 @@
 
 <section id="team">
   <div class="wrap">
-    <h2>Core Team</h2>
-  </div>
-      <div class="flip-card-container">
-        <div class="card-wrapper">
-          <div class="flip-card">
-            <div class="flip-card-front"></div>
-            
-            <div class="flip-card-back">
-              <p class="bio">
-              Prof. Kathryn Eccles is Associate Professor in Digital Culture and Heritage and Senior Research Fellow at the Oxford Internet Institute.
-               She is Director of The Oxford Research Centre for the Humanities (TORCH) and Deputy Director of the Oxford Internet Institute. 
-               Her research has examined the ways in which museums and cultural heritage organisations can implement new tools and technologies to measure and enhance visitor engagement, 
-               and to better understand how visitors engage with art, cultural heritage collections and sites. Kathryn’s work has explored the role and impact of crowdsourcing in the arts, 
-               how and why people engage with online collections, object-based learning (Cabinet project, 2015-2025), and how XR technologies to aid in the critical contextualisation of 
-               contested objects and hidden histories (Open Cabinet). She has also studied how social data can be mapped to understand cultural engagement (‘Hashtag Heritage’, Playful Spaces) 
-               and most recently the impact of AI on curation and the visitor experience (AI Futures). Kathryn has fostered collaborative partnerships with cultural heritage institutions such as
-                the University of Oxford’s Gardens, Libraries and Museums, English Heritage, ArtUK, and the National Trust.
-              </p>
+    <h2>Core team</h2>
+    <div class="team-grid">
 
+      <!-- ===== PROFILE: Rebecca Chamberlain ===== -->
+      <div class="flip-card" tabindex="0" role="group" aria-label="Rebecca Chamberlain, Principal Investigator. Tap or hover to read the bio.">
+        <div class="flip-inner">
+          <div class="flip-front" style="background-image: url('rebecca-chamberlain-copy.jpg');" role="img" aria-label="Photo of Rebecca Chamberlain">
+            <div class="caption">
+              <h3>Rebecca Chamberlain</h3>
+              <p class="role">Principal Investigator</p>
+            </div>
+          </div>
+          <div class="flip-back">
+            <h3>Rebecca Chamberlain</h3>
+            <p class="role">Principal Investigator</p>
+            <p class="bio">
+              Dr Rebecca Chamberlain is a reader in psychology and neuroscience in the school of Mind,
+              Body and Society at Goldsmiths, University of London. She is currently Programme
+              Director of the MSc in Psychology of the Arts, Neuroaesthetics and Creativity and
+              Editor-in-Chief at Empirical Studies of the Arts. Her research focuses on the psychology
+              and neuroscience of the production and perception of visual art. She is particularly
+              interested in the mechanisms by which artists acquire their expertise, how interaction
+              with art is mediated by technology, and the impact of engagement with the visual arts
+              can have on education and mental health. She has led collaborative research projects
+              with the National Gallery, The Hayward Gallery and Manchester Art Gallery and her work
+              has been funded by the Arts and Humanities Research Council (AHRC), the British Academy
+              and the Leverhulme Trust.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== PROFILE: Kathryn Eccles ===== -->
+      <div class="flip-card" tabindex="0" role="group" aria-label="Kathryn Eccles, Co-Investigator. Tap or hover to read the bio.">
+        <div class="flip-inner">
+          <div class="flip-front" style="background-image: url('kathryn-eccles.jpg');" role="img" aria-label="Photo of Kathryn Eccles">
+            <div class="caption">
+              <h3>Kathryn Eccles</h3>
+              <p class="role">Co-Investigator</p>
+            </div>
+          </div>
+          <div class="flip-back">
+            <h3>Kathryn Eccles</h3>
+            <p class="role">Co-Investigator</p>
+            <p class="bio">
+              Prof. Kathryn Eccles is Associate Professor in Digital Culture and Heritage and Senior
+              Research Fellow at the Oxford Internet Institute.
+              She is Director of The Oxford Research Centre for the Humanities (TORCH) and Deputy
+              Director of the Oxford Internet Institute.
+              Her research has examined the ways in which museums and cultural heritage organisations
+              can implement new tools and technologies to measure and enhance visitor engagement,
+              and to better understand how visitors engage with art, cultural heritage collections and
+              sites. Kathryn’s work has explored the role and impact of crowdsourcing in the arts,
+              how and why people engage with online collections, object-based learning (Cabinet
+              project, 2015-2025), and how XR technologies to aid in the critical contextualisation of
+              contested objects and hidden histories (Open Cabinet). She has also studied how social
+              data can be mapped to understand cultural engagement (‘Hashtag Heritage’, Playful
+              Spaces) and most recently the impact of AI on curation and the visitor experience (AI
+              Futures).
+              Kathryn has fostered collaborative partnerships with cultural heritage institutions such
+              as the University of Oxford’s Gardens, Libraries and Museums, English Heritage, ArtUK,
+              and the National Trust.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== PROFILE: Siena Jobson (no photo yet: shows initials) ===== -->
+      <div class="flip-card" tabindex="0" role="group" aria-label="Siena Jobson, MPhil student. Tap or hover to read the bio.">
+        <div class="flip-inner">
+          <div class="flip-front">
+            <span class="initials" aria-hidden="true">SJ</span>
+            <div class="caption">
+              <h3>Siena Jobson</h3>
+              <p class="role">MPhil student</p>
+            </div>
+          </div>
+          <div class="flip-back">
+            <h3>Siena Jobson</h3>
+            <p class="role">MPhil student</p>
+            <p class="bio">
+              Siena holds an MSc in Psychology of the Arts, Neuroaesthetics and Creativity
+              from Goldsmiths and a BSc in Natural Sciences (Neuroscience and Organic Chemistry) from
+              UCL. Her research focuses on the intersection of technology and the arts and culture
+              sectors. She is particularly interested in how computational methods, including
+              eye-tracking and computer vision, can be used to understand visitor behaviour in museums
+              and galleries, as well as art-making behaviour. Alongside her research, she has worked
+              with arts charities including Arts for Dementia and Wessex Dance Academy to help improve
+              public engagement with the arts.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== PROFILE: Ellen Yang ===== -->
+      <div class="flip-card" tabindex="0" role="group" aria-label="Ellen Yang, MPhil student. Tap or hover to read the bio.">
+        <div class="flip-inner">
+          <div class="flip-front" style="background-image: url('ellen-yang-copy.jpeg');" role="img" aria-label="Photo of Ellen Yang">
+            <div class="caption">
+              <h3>Ellen Yang</h3>
+              <p class="role">MPhil student</p>
+            </div>
+          </div>
+          <div class="flip-back">
+            <h3>Ellen Yang</h3>
+            <p class="role">MPhil student</p>
+            <p class="bio">
+              Ellen holds an MSc in Social Science of the Internet from the OII and a BA in Education
+              Studies and Psychology from Durham University, where she was a Laidlaw Scholar for her
+              work on digital literacy and social wellbeing in the School of Education. In the
+              Department of Psychology, she received the David Kleimann Prize for her research on
+              inner speech and mathematical anxiety. Alongside her academic work, she works in public
+              engagement across cultural heritage education and philanthropy, with Gresham College
+              (Lifelong Learning and AI Literacy), Imperial War Museums (Augmented Reality for
+              Historical War Arts), and international partners.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== PROFILE: Olivia McConnell (no photo yet: shows initials) ===== -->
+      <div class="flip-card" tabindex="0" role="group" aria-label="Olivia McConnell, PhD candidate. Tap or hover to read the bio.">
+        <div class="flip-inner">
+          <div class="flip-front">
+            <span class="initials" aria-hidden="true">OM</span>
+            <div class="caption">
+              <h3>Olivia McConnell</h3>
+              <p class="role">PhD candidate</p>
+            </div>
+          </div>
+          <div class="flip-back">
+            <h3>Olivia McConnell</h3>
+            <p class="role">PhD candidate</p>
+            <p class="bio">BIO TEXT HERE</p>
+          </div>
+        </div>
+      </div>
+
+      <!--
+        ===== TEMPLATE FOR A NEW PROFILE: copy from here to the end of this comment, paste it above, and fill it in =====
+        (Remove the comment markers when you paste it. To use a photo, delete the <span class="initials"> line and
+        add style="background-image: url('firstname-lastname.jpg');" to the flip-front div.)
+
+        <div class="flip-card" tabindex="0" role="group" aria-label="NAME, ROLE. Tap or hover to read the bio.">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <span class="initials" aria-hidden="true">AB</span>
+              <div class="caption">
+                <h3>NAME</h3>
+                <p class="role">ROLE</p>
+              </div>
+            </div>
+            <div class="flip-back">
+              <h3>NAME</h3>
+              <p class="role">ROLE</p>
+              <p class="bio">BIO TEXT HERE</p>
             </div>
           </div>
         </div>
+      -->
 
-      </div>
-
-    <div class="team-grid">
-      <div class="person">
-        <h3>Rebecca Chamberlain</h3>
-        <p class="role">Principal Investigator</p>
-        <p class="bio">[insert bio + image]</p>
-      </div>
-      <div class="person">
-        <h3>Kathryn Eccles</h3>
-        <p class="role">Co-Investigator</p>
-        <p class="bio">[insert bio + image]</p>
-      </div>
-      <div class="person">
-        <h3>Siena Jobson</h3>
-        <p class="role">PhD candidate</p>
-        <p class="bio">[insert bio + image]</p>
-      </div>
-      <div class="person">
-        <h3>Ellen ...</h3>
-        <p class="role">PhD candidate</p>
-        <p class="bio">[insert bio + image]</p>
-      </div>
     </div>
+  </div>
 </section>
 
-<section id="publications">
+<section id="news">
   <div class="wrap">
-    <h2>Publications</h2>
-    <div class="pub-list">
-      <div class="pub">
-        <div class="serif" style="font-size:1.02rem;">Working paper title goes here</div>
-        <p class="pub-meta">Author names · In preparation · <a href="#" style="color:var(--accent)">link</a></p>
-      </div>
-      <div class="pub">
-        <div class="serif" style="font-size:1.02rem;">Conference presentation title</div>
-        <p class="pub-meta">Author names · Conference name, 2026</p>
-      </div>
+    <h2>News</h2>
+    <div class="news-list" id="news-list">
+      <p class="news-empty">Loading news…</p>
     </div>
   </div>
 </section>
@@ -385,6 +566,88 @@
     © 2026 Object Lessons Research Project. <a href="mailto:hello@object-lessons.co.uk">hello@object-lessons.co.uk</a>
   </div>
 </footer>
+
+<script>
+  // Lets touch screens flip a card with a tap (hover doesn't exist on phones),
+  // and lets keyboard users flip with Enter or Space.
+  document.querySelectorAll('.flip-card').forEach(function (card) {
+    card.addEventListener('click', function () { card.classList.toggle('is-flipped'); });
+    card.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        card.classList.toggle('is-flipped');
+      }
+    });
+  });
+
+  // Loads news posts from news.json (edited through Pages CMS) and shows the newest first.
+  (function () {
+    var list = document.getElementById('news-list');
+    if (!list) return;
+
+    function showMessage(text) {
+      list.innerHTML = '';
+      var p = document.createElement('p');
+      p.className = 'news-empty';
+      p.textContent = text;
+      list.appendChild(p);
+    }
+
+    function formatDate(value) {
+      var d = new Date(value);
+      if (isNaN(d)) return '';
+      return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+    }
+
+    fetch('news.json', { cache: 'no-cache' })
+      .then(function (r) { if (!r.ok) throw new Error('not found'); return r.json(); })
+      .then(function (data) {
+        var posts = (data && data.posts) ? data.posts.slice() : [];
+        if (!posts.length) { showMessage('No news yet. Check back soon.'); return; }
+
+        posts.sort(function (a, b) { return new Date(b.date) - new Date(a.date); });
+        list.innerHTML = '';
+
+        posts.forEach(function (post) {
+          var article = document.createElement('article');
+          article.className = 'news-post' + (post.image ? '' : ' no-image');
+
+          if (post.image) {
+            var img = document.createElement('img');
+            img.src = post.image;
+            img.alt = post.image_alt || '';
+            img.loading = 'lazy';
+            article.appendChild(img);
+          }
+
+          var body = document.createElement('div');
+
+          var dateText = formatDate(post.date);
+          if (dateText) {
+            var time = document.createElement('time');
+            time.setAttribute('datetime', String(post.date).slice(0, 10));
+            time.textContent = dateText;
+            body.appendChild(time);
+          }
+
+          var h3 = document.createElement('h3');
+          h3.textContent = post.title || '';
+          body.appendChild(h3);
+
+          String(post.text || '').split(/\n\s*\n/).forEach(function (para) {
+            if (!para.trim()) return;
+            var p = document.createElement('p');
+            p.textContent = para.trim();
+            body.appendChild(p);
+          });
+
+          article.appendChild(body);
+          list.appendChild(article);
+        });
+      })
+      .catch(function () { showMessage('News could not be loaded right now.'); });
+  })();
+</script>
 
 </body>
 </html>
