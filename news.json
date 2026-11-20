@@ -1,0 +1,11 @@
+{
+  "posts": [
+    {
+      "title": "Sample post: edit or delete me",
+      "date": "2026-11-20",
+      "image": "",
+      "image_alt": "",
+      "text": "This is a sample news post so you can check the News section is working.\n\nDelete it in the editor once you have added your first real post."
+    }
+  ]
+}
